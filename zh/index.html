@@ -1,0 +1,778 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Happy Horse AI 视频生成器使用指南 | 提示词技巧、使用案例与教程</title>
+  <meta name="description" content="深入了解 Happy Horse（HappyHorse 1.0）— 阿里巴巴旗下全球排名第一的 AI 视频生成模型。提供提示词写作技巧、使用案例、功能详解，帮助创作者快速掌握 Happy Horse AI 视频生成。">
+  <meta name="keywords" content="Happy Horse, HappyHorse 1.0, AI视频生成器, 文生视频, 图生视频, 阿里巴巴AI, 视频生成模型, 提示词技巧">
+  <link rel="canonical" href="https://happy-horse-prompts.github.io/zh/">
+  <meta property="og:title" content="Happy Horse AI 视频生成器使用指南 | 提示词技巧、使用案例与教程">
+  <meta property="og:description" content="深入了解 Happy Horse（HappyHorse 1.0）— 阿里巴巴旗下全球排名第一的 AI 视频生成模型。提示词写作技巧、使用案例、功能详解。">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://happy-horse-prompts.github.io/zh/">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg-primary: #09090b;
+      --bg-secondary: #0f0f13;
+      --bg-card: rgba(255,255,255,0.03);
+      --bg-card-hover: rgba(255,255,255,0.06);
+      --border: rgba(255,255,255,0.08);
+      --border-hover: rgba(139,92,246,0.3);
+      --text-primary: #f4f4f5;
+      --text-secondary: #a1a1aa;
+      --text-muted: #71717a;
+      --gradient-start: #8b5cf6;
+      --gradient-mid: #6366f1;
+      --gradient-end: #3b82f6;
+      --gradient: linear-gradient(135deg, var(--gradient-start), var(--gradient-mid), var(--gradient-end));
+      --gradient-text: linear-gradient(135deg, #a78bfa, #818cf8, #60a5fa);
+      --glow: 0 0 80px rgba(139,92,246,0.15), 0 0 160px rgba(59,130,246,0.08);
+    }
+
+    html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; }
+
+    body {
+      font-family: 'DM Sans', -apple-system, sans-serif;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    h1, h2, h3 { font-family: 'Instrument Serif', Georgia, serif; font-weight: 400; line-height: 1.2; }
+
+    a { color: inherit; text-decoration: none; }
+
+    /* ─── NAVBAR ─── */
+    .navbar {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      padding: 0 1.5rem;
+      backdrop-filter: blur(20px) saturate(1.4);
+      -webkit-backdrop-filter: blur(20px) saturate(1.4);
+      background: rgba(9,9,11,0.7);
+      border-bottom: 1px solid var(--border);
+      transition: background 0.3s;
+    }
+    .navbar-inner {
+      max-width: 1200px; margin: 0 auto;
+      display: flex; align-items: center; justify-content: space-between;
+      height: 64px;
+    }
+    .navbar-brand {
+      font-family: 'Instrument Serif', serif;
+      font-size: 1.25rem; letter-spacing: -0.02em;
+      display: flex; align-items: center; gap: 0.5rem;
+    }
+    .navbar-brand .brand-icon {
+      width: 28px; height: 28px; border-radius: 8px;
+      background: var(--gradient); display: grid; place-items: center;
+      font-size: 14px;
+    }
+    .navbar-links { display: flex; align-items: center; gap: 2rem; list-style: none; }
+    .navbar-links a {
+      font-size: 0.875rem; color: var(--text-secondary); transition: color 0.2s;
+      font-weight: 500;
+    }
+    .navbar-links a:hover { color: var(--text-primary); }
+    .lang-toggle {
+      font-size: 0.75rem; padding: 0.35rem 0.75rem;
+      border: 1px solid var(--border); border-radius: 999px;
+      color: var(--text-secondary); cursor: pointer;
+      transition: all 0.2s; background: transparent;
+      font-family: 'DM Sans', sans-serif; font-weight: 500;
+    }
+    .lang-toggle:hover { border-color: var(--gradient-start); color: var(--text-primary); }
+    .mobile-menu-btn {
+      display: none; background: none; border: none; color: var(--text-primary);
+      cursor: pointer; padding: 0.25rem;
+    }
+    .mobile-menu-btn svg { width: 24px; height: 24px; }
+    .mobile-nav {
+      display: none; position: fixed; inset: 0; z-index: 99;
+      background: rgba(9,9,11,0.95); backdrop-filter: blur(20px);
+      padding: 5rem 1.5rem 2rem;
+    }
+    .mobile-nav.open { display: flex; flex-direction: column; gap: 1.5rem; }
+    .mobile-nav a {
+      font-size: 1.25rem; color: var(--text-secondary); font-weight: 500;
+      transition: color 0.2s;
+    }
+    .mobile-nav a:hover { color: var(--text-primary); }
+
+    @media (max-width: 768px) {
+      .navbar-links { display: none; }
+      .mobile-menu-btn { display: block; }
+    }
+
+    /* ─── CONTAINER ─── */
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 1.5rem; }
+
+    /* ─── HERO ─── */
+    .hero {
+      min-height: 100vh; display: flex; align-items: center; justify-content: center;
+      text-align: center; padding: 6rem 1.5rem 4rem;
+      position: relative; overflow: hidden;
+    }
+    .hero::before {
+      content: ''; position: absolute; top: -40%; left: 50%; transform: translateX(-50%);
+      width: 800px; height: 800px;
+      background: radial-gradient(ellipse, rgba(139,92,246,0.12) 0%, rgba(59,130,246,0.06) 40%, transparent 70%);
+      pointer-events: none;
+    }
+    .hero-content { position: relative; max-width: 800px; }
+    .hero h1 {
+      font-size: clamp(2.5rem, 6vw, 4.5rem);
+      letter-spacing: -0.03em; margin-bottom: 1.5rem;
+    }
+    .hero h1 .gradient-text {
+      background: var(--gradient-text);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .hero-subtitle {
+      font-size: clamp(1rem, 2vw, 1.15rem);
+      color: var(--text-secondary); max-width: 640px; margin: 0 auto 2.5rem;
+      line-height: 1.8;
+    }
+    .hero-ctas { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; margin-bottom: 3rem; }
+    .btn-primary {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      padding: 0.8rem 1.75rem; border-radius: 12px;
+      background: var(--gradient); color: #fff;
+      font-size: 0.9rem; font-weight: 600;
+      border: none; cursor: pointer;
+      transition: opacity 0.2s, transform 0.2s;
+      font-family: 'DM Sans', sans-serif;
+    }
+    .btn-primary:hover { opacity: 0.9; transform: translateY(-1px); }
+    .btn-secondary {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      padding: 0.8rem 1.75rem; border-radius: 12px;
+      background: var(--bg-card); color: var(--text-primary);
+      font-size: 0.9rem; font-weight: 600;
+      border: 1px solid var(--border); cursor: pointer;
+      transition: all 0.2s;
+      font-family: 'DM Sans', sans-serif;
+    }
+    .btn-secondary:hover { border-color: var(--border-hover); background: var(--bg-card-hover); }
+    .trust-badges {
+      display: flex; gap: 2rem; justify-content: center; flex-wrap: wrap;
+    }
+    .trust-badge {
+      display: flex; flex-direction: column; align-items: center; gap: 0.25rem;
+    }
+    .trust-badge .badge-value {
+      font-size: 1.25rem; font-weight: 700;
+      background: var(--gradient-text);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .trust-badge .badge-label {
+      font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase;
+      letter-spacing: 0.05em; font-weight: 500;
+    }
+
+    /* ─── SECTIONS ─── */
+    section { padding: 6rem 0; }
+    .section-label {
+      display: inline-block; font-size: 0.75rem; font-weight: 600;
+      text-transform: uppercase; letter-spacing: 0.1em;
+      color: var(--gradient-start); margin-bottom: 1rem;
+    }
+    .section-title {
+      font-size: clamp(2rem, 4vw, 3rem); margin-bottom: 1rem;
+      letter-spacing: -0.02em;
+    }
+    .section-desc {
+      font-size: 1.05rem; color: var(--text-secondary); max-width: 680px;
+      line-height: 1.8; margin-bottom: 3rem;
+    }
+    .section-desc.center { margin-left: auto; margin-right: auto; }
+
+    /* ─── WHAT IS ─── */
+    .what-is { background: var(--bg-secondary); }
+    .what-is-content {
+      max-width: 760px; margin: 0 auto; text-align: center;
+    }
+    .what-is-content p {
+      font-size: 1.05rem; color: var(--text-secondary); line-height: 1.9;
+      margin-bottom: 1.25rem;
+    }
+    .what-is-content p strong { color: var(--text-primary); }
+    .official-link {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      margin-top: 1rem; padding: 0.6rem 1.25rem;
+      border: 1px solid var(--border); border-radius: 10px;
+      font-size: 0.875rem; color: var(--text-secondary);
+      transition: all 0.2s;
+    }
+    .official-link:hover { border-color: var(--gradient-start); color: var(--text-primary); }
+
+    /* ─── FEATURES GRID ─── */
+    .features-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+    }
+    @media (max-width: 900px) { .features-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 560px) { .features-grid { grid-template-columns: 1fr; } }
+
+    .feature-card {
+      padding: 2rem; border-radius: 16px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      transition: all 0.3s;
+    }
+    .feature-card:hover {
+      border-color: var(--border-hover);
+      background: var(--bg-card-hover);
+      transform: translateY(-2px);
+    }
+    .feature-icon {
+      width: 48px; height: 48px; border-radius: 12px;
+      background: var(--gradient); opacity: 0.85;
+      display: grid; place-items: center; font-size: 1.25rem;
+      margin-bottom: 1.25rem;
+    }
+    .feature-card h3 {
+      font-size: 1.2rem; margin-bottom: 0.6rem;
+      font-family: 'DM Sans', sans-serif; font-weight: 600;
+    }
+    .feature-card p { font-size: 0.9rem; color: var(--text-secondary); line-height: 1.7; }
+
+    /* ─── USE CASES ─── */
+    .use-cases-list { display: flex; flex-direction: column; gap: 2rem; }
+    .use-case-card {
+      padding: 2rem 2.25rem; border-radius: 16px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      transition: all 0.3s;
+    }
+    .use-case-card:hover { border-color: var(--border-hover); }
+    .use-case-num {
+      display: inline-block;
+      font-size: 0.7rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.1em;
+      color: var(--gradient-start); margin-bottom: 0.75rem;
+    }
+    .use-case-card h3 {
+      font-size: 1.4rem; margin-bottom: 0.75rem;
+    }
+    .use-case-card p {
+      font-size: 0.95rem; color: var(--text-secondary); line-height: 1.8;
+      margin-bottom: 1.25rem;
+    }
+    .prompt-block {
+      padding: 1rem 1.25rem; border-radius: 10px;
+      background: rgba(139,92,246,0.06);
+      border: 1px solid rgba(139,92,246,0.12);
+      font-family: 'DM Mono', 'SF Mono', 'Fira Code', monospace;
+      font-size: 0.82rem; color: #c4b5fd; line-height: 1.7;
+      overflow-x: auto; white-space: pre-wrap; word-break: break-word;
+    }
+    .prompt-label {
+      font-size: 0.7rem; font-weight: 600; text-transform: uppercase;
+      letter-spacing: 0.08em; color: var(--text-muted);
+      margin-bottom: 0.5rem; font-family: 'DM Sans', sans-serif;
+    }
+
+    /* ─── PROMPT TIPS ─── */
+    .tips-list { max-width: 760px; display: flex; flex-direction: column; gap: 2rem; }
+    .tip-item { display: flex; gap: 1.25rem; }
+    .tip-num {
+      flex-shrink: 0; width: 36px; height: 36px; border-radius: 10px;
+      background: var(--gradient); display: grid; place-items: center;
+      font-size: 0.85rem; font-weight: 700; color: #fff;
+      margin-top: 0.15rem;
+    }
+    .tip-content h3 {
+      font-family: 'DM Sans', sans-serif; font-size: 1.05rem; font-weight: 600;
+      margin-bottom: 0.35rem;
+    }
+    .tip-content p { font-size: 0.9rem; color: var(--text-secondary); line-height: 1.7; }
+
+    /* ─── LEADERBOARD ─── */
+    .leaderboard { background: var(--bg-secondary); }
+    .lb-table-wrap {
+      max-width: 680px; margin: 0 auto;
+      border-radius: 16px; overflow: hidden;
+      border: 1px solid var(--border);
+    }
+    .lb-table { width: 100%; border-collapse: collapse; }
+    .lb-table th, .lb-table td { padding: 1rem 1.5rem; text-align: left; }
+    .lb-table thead { background: rgba(255,255,255,0.03); }
+    .lb-table th {
+      font-size: 0.75rem; font-weight: 600; text-transform: uppercase;
+      letter-spacing: 0.08em; color: var(--text-muted);
+    }
+    .lb-table td { font-size: 0.95rem; border-top: 1px solid var(--border); }
+    .lb-table .rank-badge {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 36px; height: 28px; border-radius: 8px; font-weight: 700;
+      font-size: 0.85rem;
+    }
+    .lb-table .rank-1 { background: rgba(139,92,246,0.15); color: #a78bfa; }
+    .lb-table .rank-2 { background: rgba(59,130,246,0.1); color: #60a5fa; }
+    .lb-table .elo { font-weight: 600; font-variant-numeric: tabular-nums; }
+    .lb-source {
+      text-align: center; margin-top: 1rem; font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    /* ─── FAQ ─── */
+    .faq-list { max-width: 760px; margin: 0 auto; display: flex; flex-direction: column; gap: 0.5rem; }
+    .faq-item {
+      border: 1px solid var(--border); border-radius: 14px;
+      overflow: hidden; transition: border-color 0.3s;
+    }
+    .faq-item.open { border-color: var(--border-hover); }
+    .faq-question {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1.25rem 1.5rem; cursor: pointer;
+      font-family: 'DM Sans', sans-serif; font-weight: 600;
+      font-size: 0.95rem; background: none; border: none;
+      color: var(--text-primary); width: 100%; text-align: left;
+      font-family: 'DM Sans', sans-serif;
+    }
+    .faq-question:hover { color: #a78bfa; }
+    .faq-chevron {
+      width: 20px; height: 20px; transition: transform 0.3s;
+      color: var(--text-muted); flex-shrink: 0;
+    }
+    .faq-item.open .faq-chevron { transform: rotate(180deg); color: var(--gradient-start); }
+    .faq-answer {
+      max-height: 0; overflow: hidden; transition: max-height 0.35s ease, padding 0.35s ease;
+    }
+    .faq-item.open .faq-answer { max-height: 300px; }
+    .faq-answer-inner {
+      padding: 0 1.5rem 1.25rem;
+      font-size: 0.9rem; color: var(--text-secondary); line-height: 1.8;
+    }
+
+    /* ─── FOOTER ─── */
+    footer {
+      padding: 3rem 0;
+      border-top: 1px solid var(--border);
+      text-align: center;
+    }
+    .footer-brand {
+      font-family: 'Instrument Serif', serif;
+      font-size: 1.1rem; margin-bottom: 0.5rem;
+    }
+    .footer-tagline {
+      font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 1rem;
+    }
+    .footer-disclaimer {
+      font-size: 0.78rem; color: var(--text-muted); max-width: 500px;
+      margin: 0 auto 1rem; line-height: 1.6;
+    }
+    .footer-copy { font-size: 0.75rem; color: var(--text-muted); }
+
+    /* ─── ANIMATIONS ─── */
+    .fade-in {
+      opacity: 0; transform: translateY(24px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .fade-in.visible { opacity: 1; transform: translateY(0); }
+    .fade-in:nth-child(2) { transition-delay: 0.1s; }
+    .fade-in:nth-child(3) { transition-delay: 0.2s; }
+    .fade-in:nth-child(4) { transition-delay: 0.3s; }
+    .fade-in:nth-child(5) { transition-delay: 0.4s; }
+    .fade-in:nth-child(6) { transition-delay: 0.5s; }
+  </style>
+</head>
+<body>
+
+  <!-- 导航栏 -->
+  <header class="navbar" role="banner">
+    <div class="navbar-inner">
+      <a href="/zh/" class="navbar-brand" aria-label="Happy Horse Prompts 首页">
+        <span class="brand-icon">🎬</span>
+        Happy Horse Prompts
+      </a>
+      <nav aria-label="主导航">
+        <ul class="navbar-links">
+          <li><a href="#features">功能详解</a></li>
+          <li><a href="#use-cases">使用案例</a></li>
+          <li><a href="#prompt-tips">提示词技巧</a></li>
+          <li><a href="#faq">常见问题</a></li>
+          <li><a href="/" class="lang-toggle" aria-label="Switch to English">EN</a></li>
+        </ul>
+      </nav>
+      <button class="mobile-menu-btn" aria-label="打开菜单" onclick="toggleMobileMenu()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <!-- 移动端导航 -->
+  <div class="mobile-nav" id="mobileNav" role="dialog" aria-label="移动端导航">
+    <a href="#features" onclick="closeMobileMenu()">功能详解</a>
+    <a href="#use-cases" onclick="closeMobileMenu()">使用案例</a>
+    <a href="#prompt-tips" onclick="closeMobileMenu()">提示词技巧</a>
+    <a href="#faq" onclick="closeMobileMenu()">常见问题</a>
+    <a href="/" onclick="closeMobileMenu()">English</a>
+  </div>
+
+  <main>
+    <!-- 主视觉区域 -->
+    <section class="hero" id="hero">
+      <div class="hero-content">
+        <h1 class="fade-in">
+          <span class="gradient-text">Happy Horse AI</span> — 全球排名第一的视频生成模型完全指南
+        </h1>
+        <p class="hero-subtitle fade-in">
+          Happy Horse（HappyHorse 1.0）在 Artificial Analysis 盲测排行榜上击败 Seedance 2.0、Kling 3.0 等知名模型，登顶文生视频与图生视频双榜第一。这里是创作者的 Happy Horse 使用指南 — 提示词技巧、真实案例与功能深度解析。
+        </p>
+        <div class="hero-ctas fade-in">
+          <a href="#use-cases" class="btn-primary">探索使用案例 ↓</a>
+          <a href="#prompt-tips" class="btn-secondary">学习提示词技巧</a>
+        </div>
+        <div class="trust-badges fade-in">
+          <div class="trust-badge">
+            <span class="badge-value">#1</span>
+            <span class="badge-label">全球排名</span>
+          </div>
+          <div class="trust-badge">
+            <span class="badge-value">1080p</span>
+            <span class="badge-label">原生输出</span>
+          </div>
+          <div class="trust-badge">
+            <span class="badge-value">阿里巴巴 ATH</span>
+            <span class="badge-label">出品</span>
+          </div>
+          <div class="trust-badge">
+            <span class="badge-value">Elo 1392</span>
+            <span class="badge-label">图生视频分数</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 什么是 Happy Horse -->
+    <section class="what-is" id="what-is">
+      <div class="container">
+        <div class="what-is-content">
+          <span class="section-label fade-in">概述</span>
+          <h2 class="section-title fade-in">什么是 Happy Horse？</h2>
+          <p class="fade-in">
+            Happy Horse（HappyHorse 1.0）是由<strong>阿里巴巴 ATH AI 创新部门</strong>开发的新一代 AI 视频生成模型，由前快手 Kling AI 技术架构师张迪领衔打造。2026 年 4 月，Happy Horse 以匿名方式登陆 Artificial Analysis 基准测试平台，迅速攀升至<strong>文生视频和图生视频双榜第一</strong>。
+          </p>
+          <p class="fade-in">
+            Happy Horse 采用统一的 40 层自注意力 Transformer 架构，在单次前向传播中同时生成视频和音频。它支持原生 1080p 分辨率输出、多镜头叙事、提示词驱动的摄像机控制，以及多语言唇形同步，是目前 AI 视频生成领域综合实力最强的模型之一。
+          </p>
+          <a href="https://happyhorse.cn" target="_blank" rel="noopener" class="official-link fade-in">
+            ↗ 官方平台：happyhorse.cn
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- 核心功能 -->
+    <section id="features">
+      <div class="container">
+        <div style="text-align:center">
+          <span class="section-label fade-in">能力</span>
+          <h2 class="section-title fade-in">Happy Horse 核心能力详解</h2>
+        </div>
+        <div class="features-grid">
+          <div class="feature-card fade-in">
+            <div class="feature-icon">🎵</div>
+            <h3>联合音视频生成</h3>
+            <p>视频与声音同步产出，无需后期配音。海浪的飞溅、引擎的轰鸣，Happy Horse 让每一帧画面与声效完美匹配。</p>
+          </div>
+          <div class="feature-card fade-in">
+            <div class="feature-icon">🎬</div>
+            <h3>多镜头电影叙事</h3>
+            <p>单次生成多角度、多镜头的连贯视频，角色与场景在镜头切换间保持完美一致。</p>
+          </div>
+          <div class="feature-card fade-in">
+            <div class="feature-icon">📺</div>
+            <h3>1080p 电影级画质</h3>
+            <p>原生 1080p 分辨率，丰富色彩分级、精准光照与电影级细节，无需后期即可达到广播级品质。</p>
+          </div>
+          <div class="feature-card fade-in">
+            <div class="feature-icon">🎥</div>
+            <h3>提示词摄像机控制</h3>
+            <p>在文字中直接描述推拉、摇摄、航拍等镜头运动，Happy Horse 智能协调主体与镜头运动。</p>
+          </div>
+          <div class="feature-card fade-in">
+            <div class="feature-icon">👄</div>
+            <h3>超低 WER 唇形同步</h3>
+            <p>角色口型与对话完美吻合，词错误率极低，免去手动调整。</p>
+          </div>
+          <div class="feature-card fade-in">
+            <div class="feature-icon">⚡</div>
+            <h3>8 步极速生成</h3>
+            <p>仅需 8 步去噪，单张 H100 GPU 约 38 秒完成 1080p 生成，比传统模型快 1.2 倍。</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 使用案例 -->
+    <section id="use-cases" style="background:var(--bg-secondary)">
+      <div class="container">
+        <div style="text-align:center">
+          <span class="section-label fade-in">实际应用</span>
+          <h2 class="section-title fade-in">Happy Horse 使用案例</h2>
+          <p class="section-desc center fade-in">创作者都在怎么使用 Happy Horse。</p>
+        </div>
+        <div class="use-cases-list">
+          <article class="use-case-card fade-in">
+            <span class="use-case-num">案例 01</span>
+            <h3>品牌广告概念验证</h3>
+            <p>某增长营销团队使用 Happy Horse 快速验证广告创意方向。通过文本提示词描述产品场景与运镜，几分钟内获得 1080p 视频草稿，在正式投入制作前即可向客户展示清晰的视觉方向，将广告概念验证周期从数周缩短至数小时。</p>
+            <div class="prompt-label">提示词示例</div>
+            <div class="prompt-block">"A woman in a red coat walks through a wet city street at night, neon reflections in puddles, slow dolly forward, cinematic color grading, 35mm lens"</div>
+          </article>
+
+          <article class="use-case-card fade-in">
+            <span class="use-case-num">案例 02</span>
+            <h3>科技产品动态展示</h3>
+            <p>独立开发者利用 Happy Horse 的图生视频能力，将静态产品截图转化为动态演示视频。上传产品界面截图后，Happy Horse 自动添加流畅的过渡动画和设备操作手势，生成的 1080p 视频直接用于 App Store 和社交媒体推广，显著提升了产品展示的专业度。</p>
+            <div class="prompt-label">提示词示例</div>
+            <div class="prompt-block">"A smartphone screen displaying a dashboard app, thumb scrolling through charts, subtle parallax effect, clean white background, smooth camera pan"</div>
+          </article>
+
+          <article class="use-case-card fade-in">
+            <span class="use-case-num">案例 03</span>
+            <h3>多平台短视频内容创作</h3>
+            <p>视频创作者使用 Happy Horse 的多镜头叙事功能，一条提示词即可生成包含多个镜头角度的连贯短片。角色在不同镜头间保持高度一致，配合联合音视频生成的环境音效，产出的内容无需剪辑即可发布到短视频平台，大幅提升内容产出效率。</p>
+            <div class="prompt-label">提示词示例</div>
+            <div class="prompt-block">"A chef preparing sushi in a traditional Japanese kitchen, multi-angle shots — close-up of hands slicing fish, medium shot of plating, wide shot of the kitchen, warm lighting, 8mm film aesthetic"</div>
+          </article>
+
+          <article class="use-case-card fade-in">
+            <span class="use-case-num">案例 04</span>
+            <h3>静态概念图到动态视频</h3>
+            <p>动画师和概念艺术家通过 Happy Horse 的图生视频功能（Elo 1392，图生视频排名第一），将静态角色设定和场景概念图转化为动态视频。Happy Horse 精准保持原始画作的角色一致性和环境细节，让前期概念展示更具表现力。</p>
+            <div class="prompt-label">提示词示例</div>
+            <div class="prompt-block">"Animate this concept art — the character turns to face the camera, hair flowing in wind, background clouds drifting slowly, cinematic lighting"</div>
+          </article>
+
+          <article class="use-case-card fade-in">
+            <span class="use-case-num">案例 05</span>
+            <h3>跨语言本地化视频制作</h3>
+            <p>出海品牌借助 Happy Horse 的多语言理解能力和超低 WER 唇形同步，一次制作即可生成多个语言版本的营销视频。角色口型与不同语言的配音自然匹配，避免了传统本地化流程中繁琐的口型调整工作。</p>
+            <div class="prompt-label">提示词示例</div>
+            <div class="prompt-block">"A spokesperson presenting a product in a modern office, speaking naturally to camera, professional lighting, shallow depth of field, 85mm portrait lens"</div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- 提示词技巧 -->
+    <section id="prompt-tips">
+      <div class="container">
+        <div style="text-align:center">
+          <span class="section-label fade-in">提示词工程</span>
+          <h2 class="section-title fade-in">Happy Horse 提示词写作技巧</h2>
+          <p class="section-desc center fade-in">写好 Happy Horse 提示词是获得高质量视频的关键。以下是经过社区验证的实用技巧。</p>
+        </div>
+        <div class="tips-list">
+          <div class="tip-item fade-in">
+            <div class="tip-num">1</div>
+            <div class="tip-content">
+              <h3>描述镜头运动</h3>
+              <p>Happy Horse 原生理解摄影语言。直接使用 "dolly in"、"crane shot"、"aerial dive"、"slow pan" 等术语，比笼统的描述效果好得多。</p>
+            </div>
+          </div>
+          <div class="tip-item fade-in">
+            <div class="tip-num">2</div>
+            <div class="tip-content">
+              <h3>指定光线氛围</h3>
+              <p>"golden hour lighting"、"neon reflections"、"soft studio lighting" 等具体描述让 Happy Horse 精准还原你想要的电影感。</p>
+            </div>
+          </div>
+          <div class="tip-item fade-in">
+            <div class="tip-num">3</div>
+            <div class="tip-content">
+              <h3>包含镜头焦距</h3>
+              <p>提及 "35mm lens"、"85mm portrait"、"wide angle" 可以引导 Happy Horse 生成相应的景深和视角。</p>
+            </div>
+          </div>
+          <div class="tip-item fade-in">
+            <div class="tip-num">4</div>
+            <div class="tip-content">
+              <h3>善用多镜头叙事</h3>
+              <p>在提示词中描述多个角度和场景切换，如 "multi-angle shots — close-up, medium, wide"，充分发挥 Happy Horse 的多镜头能力。</p>
+            </div>
+          </div>
+          <div class="tip-item fade-in">
+            <div class="tip-num">5</div>
+            <div class="tip-content">
+              <h3>控制动作节奏</h3>
+              <p>使用 "slow motion"、"time-lapse"、"fluid motion" 等词汇精确控制视频节奏。</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 排行榜 -->
+    <section class="leaderboard" id="leaderboard">
+      <div class="container">
+        <div style="text-align:center">
+          <span class="section-label fade-in">排名</span>
+          <h2 class="section-title fade-in">Happy Horse 在全球排行榜的表现</h2>
+          <p class="section-desc center fade-in">Artificial Analysis Video Arena 采用 Elo 评分系统：用户在不知道模型身份的情况下对比两组视频，选出更优者。</p>
+        </div>
+        <div class="lb-table-wrap fade-in">
+          <table class="lb-table" role="table" aria-label="排行榜排名">
+            <thead>
+              <tr><th>排名类别</th><th>排名</th><th>Elo 分数</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>文生视频（无音频）</td>
+                <td><span class="rank-badge rank-1">#1</span></td>
+                <td class="elo">1333</td>
+              </tr>
+              <tr>
+                <td>图生视频（无音频）</td>
+                <td><span class="rank-badge rank-1">#1</span></td>
+                <td class="elo">1392</td>
+              </tr>
+              <tr>
+                <td>文生视频（含音频）</td>
+                <td><span class="rank-badge rank-2">#2</span></td>
+                <td class="elo">1205</td>
+              </tr>
+              <tr>
+                <td>图生视频（含音频）</td>
+                <td><span class="rank-badge rank-2">#2</span></td>
+                <td class="elo">1161</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="lb-source fade-in">数据来源：Artificial Analysis Video Arena，2026 年 4 月。排名基于盲测投票，随投票累积可能变动。</p>
+      </div>
+    </section>
+
+    <!-- 常见问题 -->
+    <section id="faq">
+      <div class="container">
+        <div style="text-align:center">
+          <span class="section-label fade-in">FAQ</span>
+          <h2 class="section-title fade-in">Happy Horse 常见问题</h2>
+        </div>
+        <div class="faq-list">
+          <div class="faq-item fade-in">
+            <button class="faq-question" aria-expanded="false" onclick="toggleFaq(this)">
+              Happy Horse 是什么？
+              <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div class="faq-answer"><div class="faq-answer-inner">
+              Happy Horse（HappyHorse 1.0）是阿里巴巴 ATH AI 创新部门开发的 AI 视频生成模型，在 Artificial Analysis 排行榜文生视频和图生视频双榜排名第一。
+            </div></div>
+          </div>
+          <div class="faq-item fade-in">
+            <button class="faq-question" aria-expanded="false" onclick="toggleFaq(this)">
+              Happy Horse 和 Seedance 2.0 哪个好？
+              <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div class="faq-answer"><div class="faq-answer-inner">
+              在 Artificial Analysis 的盲测排名中，Happy Horse 在文生视频和图生视频（无音频）类别均排名第一，高于 Seedance 2.0。实际效果因场景而异，建议亲自对比测试。
+            </div></div>
+          </div>
+          <div class="faq-item fade-in">
+            <button class="faq-question" aria-expanded="false" onclick="toggleFaq(this)">
+              Happy Horse 支持哪些功能？
+              <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div class="faq-answer"><div class="faq-answer-inner">
+              文生视频、图生视频、视频编辑、参考图生视频、联合音视频生成、多镜头叙事、提示词摄像机控制、多语言唇形同步。
+            </div></div>
+          </div>
+          <div class="faq-item fade-in">
+            <button class="faq-question" aria-expanded="false" onclick="toggleFaq(this)">
+              Happy Horse 是开源的吗？
+              <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div class="faq-answer"><div class="faq-answer-inner">
+              fal.ai 确认 HappyHorse-1.0 为闭源模型，不开源、不可许可。
+            </div></div>
+          </div>
+          <div class="faq-item fade-in">
+            <button class="faq-question" aria-expanded="false" onclick="toggleFaq(this)">
+              Happy Horse 背后的团队是谁？
+              <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div class="faq-answer"><div class="faq-answer-inner">
+              由阿里巴巴 ATH（Alibaba Token Hub）AI 创新部门开发，项目负责人为张迪（前快手 Kling AI 技术架构师）。阿里巴巴 CEO 吴泳铭将 AI 开发作为集团首要战略。
+            </div></div>
+          </div>
+          <div class="faq-item fade-in">
+            <button class="faq-question" aria-expanded="false" onclick="toggleFaq(this)">
+              Happy Horse 支持哪些宽高比？
+              <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div class="faq-answer"><div class="faq-answer-inner">
+              16:9、9:16、1:1、4:3、3:4、21:9，覆盖主流视频平台需求。
+            </div></div>
+          </div>
+          <div class="faq-item fade-in">
+            <button class="faq-question" aria-expanded="false" onclick="toggleFaq(this)">
+              在哪里可以使用 Happy Horse？
+              <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div class="faq-answer"><div class="faq-answer-inner">
+              官方平台 happyhorse.cn，以及 fal.ai、Pollo AI、Artlist、OpenArt 等合作平台均提供 Happy Horse 的访问。
+            </div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- 页脚 -->
+  <footer>
+    <div class="container">
+      <div class="footer-brand">Happy Horse Prompts</div>
+      <p class="footer-tagline">Happy Horse AI 创作者社区与使用指南</p>
+      <p class="footer-disclaimer">本站为粉丝站点，与阿里巴巴、HappyHorse 官方团队无关联。官方平台请访问 <a href="https://happyhorse.cn" target="_blank" rel="noopener" style="color:#a78bfa">happyhorse.cn</a></p>
+      <p class="footer-copy">&copy; 2026 Happy Horse Prompts</p>
+    </div>
+  </footer>
+
+  <script>
+    // 滚动淡入动画
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); } });
+    }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+    document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+    // FAQ 手风琴
+    function toggleFaq(btn) {
+      const item = btn.parentElement;
+      const isOpen = item.classList.contains('open');
+      document.querySelectorAll('.faq-item.open').forEach(i => {
+        i.classList.remove('open');
+        i.querySelector('.faq-question').setAttribute('aria-expanded', 'false');
+      });
+      if (!isOpen) {
+        item.classList.add('open');
+        btn.setAttribute('aria-expanded', 'true');
+      }
+    }
+
+    // 移动端菜单
+    function toggleMobileMenu() {
+      document.getElementById('mobileNav').classList.toggle('open');
+    }
+    function closeMobileMenu() {
+      document.getElementById('mobileNav').classList.remove('open');
+    }
+  </script>
+</body>
+</html>

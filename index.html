@@ -1,0 +1,778 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Happy Horse AI Video Generator Guide | Prompt Tips, Use Cases &amp; Tutorials</title>
+  <meta name="description" content="Discover Happy Horse (HappyHorse 1.0) — the #1 ranked AI video generation model by Alibaba. Prompt writing tips, real-world use cases, and feature deep dives to help creators master Happy Horse AI video generation.">
+  <meta name="keywords" content="Happy Horse, HappyHorse 1.0, AI video generator, text to video, image to video, Alibaba AI, video generation model, prompt tips">
+  <link rel="canonical" href="https://happy-horse-prompts.github.io/">
+  <meta property="og:title" content="Happy Horse AI Video Generator Guide | Prompt Tips, Use Cases & Tutorials">
+  <meta property="og:description" content="Discover Happy Horse (HappyHorse 1.0) — the #1 ranked AI video generation model by Alibaba. Prompt writing tips, real-world use cases, and feature deep dives.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://happy-horse-prompts.github.io/">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg-primary: #09090b;
+      --bg-secondary: #0f0f13;
+      --bg-card: rgba(255,255,255,0.03);
+      --bg-card-hover: rgba(255,255,255,0.06);
+      --border: rgba(255,255,255,0.08);
+      --border-hover: rgba(139,92,246,0.3);
+      --text-primary: #f4f4f5;
+      --text-secondary: #a1a1aa;
+      --text-muted: #71717a;
+      --gradient-start: #8b5cf6;
+      --gradient-mid: #6366f1;
+      --gradient-end: #3b82f6;
+      --gradient: linear-gradient(135deg, var(--gradient-start), var(--gradient-mid), var(--gradient-end));
+      --gradient-text: linear-gradient(135deg, #a78bfa, #818cf8, #60a5fa);
+      --glow: 0 0 80px rgba(139,92,246,0.15), 0 0 160px rgba(59,130,246,0.08);
+    }
+
+    html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; }
+
+    body {
+      font-family: 'DM Sans', -apple-system, sans-serif;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    h1, h2, h3 { font-family: 'Instrument Serif', Georgia, serif; font-weight: 400; line-height: 1.2; }
+
+    a { color: inherit; text-decoration: none; }
+
+    /* ─── NAVBAR ─── */
+    .navbar {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      padding: 0 1.5rem;
+      backdrop-filter: blur(20px) saturate(1.4);
+      -webkit-backdrop-filter: blur(20px) saturate(1.4);
+      background: rgba(9,9,11,0.7);
+      border-bottom: 1px solid var(--border);
+      transition: background 0.3s;
+    }
+    .navbar-inner {
+      max-width: 1200px; margin: 0 auto;
+      display: flex; align-items: center; justify-content: space-between;
+      height: 64px;
+    }
+    .navbar-brand {
+      font-family: 'Instrument Serif', serif;
+      font-size: 1.25rem; letter-spacing: -0.02em;
+      display: flex; align-items: center; gap: 0.5rem;
+    }
+    .navbar-brand .brand-icon {
+      width: 28px; height: 28px; border-radius: 8px;
+      background: var(--gradient); display: grid; place-items: center;
+      font-size: 14px;
+    }
+    .navbar-links { display: flex; align-items: center; gap: 2rem; list-style: none; }
+    .navbar-links a {
+      font-size: 0.875rem; color: var(--text-secondary); transition: color 0.2s;
+      font-weight: 500;
+    }
+    .navbar-links a:hover { color: var(--text-primary); }
+    .lang-toggle {
+      font-size: 0.75rem; padding: 0.35rem 0.75rem;
+      border: 1px solid var(--border); border-radius: 999px;
+      color: var(--text-secondary); cursor: pointer;
+      transition: all 0.2s; background: transparent;
+      font-family: 'DM Sans', sans-serif; font-weight: 500;
+    }
+    .lang-toggle:hover { border-color: var(--gradient-start); color: var(--text-primary); }
+    .mobile-menu-btn {
+      display: none; background: none; border: none; color: var(--text-primary);
+      cursor: pointer; padding: 0.25rem;
+    }
+    .mobile-menu-btn svg { width: 24px; height: 24px; }
+    .mobile-nav {
+      display: none; position: fixed; inset: 0; z-index: 99;
+      background: rgba(9,9,11,0.95); backdrop-filter: blur(20px);
+      padding: 5rem 1.5rem 2rem;
+    }
+    .mobile-nav.open { display: flex; flex-direction: column; gap: 1.5rem; }
+    .mobile-nav a {
+      font-size: 1.25rem; color: var(--text-secondary); font-weight: 500;
+      transition: color 0.2s;
+    }
+    .mobile-nav a:hover { color: var(--text-primary); }
+
+    @media (max-width: 768px) {
+      .navbar-links { display: none; }
+      .mobile-menu-btn { display: block; }
+    }
+
+    /* ─── CONTAINER ─── */
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 1.5rem; }
+
+    /* ─── HERO ─── */
+    .hero {
+      min-height: 100vh; display: flex; align-items: center; justify-content: center;
+      text-align: center; padding: 6rem 1.5rem 4rem;
+      position: relative; overflow: hidden;
+    }
+    .hero::before {
+      content: ''; position: absolute; top: -40%; left: 50%; transform: translateX(-50%);
+      width: 800px; height: 800px;
+      background: radial-gradient(ellipse, rgba(139,92,246,0.12) 0%, rgba(59,130,246,0.06) 40%, transparent 70%);
+      pointer-events: none;
+    }
+    .hero-content { position: relative; max-width: 800px; }
+    .hero h1 {
+      font-size: clamp(2.5rem, 6vw, 4.5rem);
+      letter-spacing: -0.03em; margin-bottom: 1.5rem;
+    }
+    .hero h1 .gradient-text {
+      background: var(--gradient-text);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .hero-subtitle {
+      font-size: clamp(1rem, 2vw, 1.15rem);
+      color: var(--text-secondary); max-width: 640px; margin: 0 auto 2.5rem;
+      line-height: 1.8;
+    }
+    .hero-ctas { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; margin-bottom: 3rem; }
+    .btn-primary {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      padding: 0.8rem 1.75rem; border-radius: 12px;
+      background: var(--gradient); color: #fff;
+      font-size: 0.9rem; font-weight: 600;
+      border: none; cursor: pointer;
+      transition: opacity 0.2s, transform 0.2s;
+      font-family: 'DM Sans', sans-serif;
+    }
+    .btn-primary:hover { opacity: 0.9; transform: translateY(-1px); }
+    .btn-secondary {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      padding: 0.8rem 1.75rem; border-radius: 12px;
+      background: var(--bg-card); color: var(--text-primary);
+      font-size: 0.9rem; font-weight: 600;
+      border: 1px solid var(--border); cursor: pointer;
+      transition: all 0.2s;
+      font-family: 'DM Sans', sans-serif;
+    }
+    .btn-secondary:hover { border-color: var(--border-hover); background: var(--bg-card-hover); }
+    .trust-badges {
+      display: flex; gap: 2rem; justify-content: center; flex-wrap: wrap;
+    }
+    .trust-badge {
+      display: flex; flex-direction: column; align-items: center; gap: 0.25rem;
+    }
+    .trust-badge .badge-value {
+      font-size: 1.25rem; font-weight: 700;
+      background: var(--gradient-text);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .trust-badge .badge-label {
+      font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase;
+      letter-spacing: 0.05em; font-weight: 500;
+    }
+
+    /* ─── SECTIONS ─── */
+    section { padding: 6rem 0; }
+    .section-label {
+      display: inline-block; font-size: 0.75rem; font-weight: 600;
+      text-transform: uppercase; letter-spacing: 0.1em;
+      color: var(--gradient-start); margin-bottom: 1rem;
+    }
+    .section-title {
+      font-size: clamp(2rem, 4vw, 3rem); margin-bottom: 1rem;
+      letter-spacing: -0.02em;
+    }
+    .section-desc {
+      font-size: 1.05rem; color: var(--text-secondary); max-width: 680px;
+      line-height: 1.8; margin-bottom: 3rem;
+    }
+    .section-desc.center { margin-left: auto; margin-right: auto; }
+
+    /* ─── WHAT IS ─── */
+    .what-is { background: var(--bg-secondary); }
+    .what-is-content {
+      max-width: 760px; margin: 0 auto; text-align: center;
+    }
+    .what-is-content p {
+      font-size: 1.05rem; color: var(--text-secondary); line-height: 1.9;
+      margin-bottom: 1.25rem;
+    }
+    .what-is-content p strong { color: var(--text-primary); }
+    .official-link {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      margin-top: 1rem; padding: 0.6rem 1.25rem;
+      border: 1px solid var(--border); border-radius: 10px;
+      font-size: 0.875rem; color: var(--text-secondary);
+      transition: all 0.2s;
+    }
+    .official-link:hover { border-color: var(--gradient-start); color: var(--text-primary); }
+
+    /* ─── FEATURES GRID ─── */
+    .features-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+    }
+    @media (max-width: 900px) { .features-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 560px) { .features-grid { grid-template-columns: 1fr; } }
+
+    .feature-card {
+      padding: 2rem; border-radius: 16px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      transition: all 0.3s;
+    }
+    .feature-card:hover {
+      border-color: var(--border-hover);
+      background: var(--bg-card-hover);
+      transform: translateY(-2px);
+    }
+    .feature-icon {
+      width: 48px; height: 48px; border-radius: 12px;
+      background: var(--gradient); opacity: 0.85;
+      display: grid; place-items: center; font-size: 1.25rem;
+      margin-bottom: 1.25rem;
+    }
+    .feature-card h3 {
+      font-size: 1.2rem; margin-bottom: 0.6rem;
+      font-family: 'DM Sans', sans-serif; font-weight: 600;
+    }
+    .feature-card p { font-size: 0.9rem; color: var(--text-secondary); line-height: 1.7; }
+
+    /* ─── USE CASES ─── */
+    .use-cases-list { display: flex; flex-direction: column; gap: 2rem; }
+    .use-case-card {
+      padding: 2rem 2.25rem; border-radius: 16px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      transition: all 0.3s;
+    }
+    .use-case-card:hover { border-color: var(--border-hover); }
+    .use-case-num {
+      display: inline-block;
+      font-size: 0.7rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.1em;
+      color: var(--gradient-start); margin-bottom: 0.75rem;
+    }
+    .use-case-card h3 {
+      font-size: 1.4rem; margin-bottom: 0.75rem;
+    }
+    .use-case-card p {
+      font-size: 0.95rem; color: var(--text-secondary); line-height: 1.8;
+      margin-bottom: 1.25rem;
+    }
+    .prompt-block {
+      padding: 1rem 1.25rem; border-radius: 10px;
+      background: rgba(139,92,246,0.06);
+      border: 1px solid rgba(139,92,246,0.12);
+      font-family: 'DM Mono', 'SF Mono', 'Fira Code', monospace;
+      font-size: 0.82rem; color: #c4b5fd; line-height: 1.7;
+      overflow-x: auto; white-space: pre-wrap; word-break: break-word;
+    }
+    .prompt-label {
+      font-size: 0.7rem; font-weight: 600; text-transform: uppercase;
+      letter-spacing: 0.08em; color: var(--text-muted);
+      margin-bottom: 0.5rem; font-family: 'DM Sans', sans-serif;
+    }
+
+    /* ─── PROMPT TIPS ─── */
+    .tips-list { max-width: 760px; display: flex; flex-direction: column; gap: 2rem; }
+    .tip-item { display: flex; gap: 1.25rem; }
+    .tip-num {
+      flex-shrink: 0; width: 36px; height: 36px; border-radius: 10px;
+      background: var(--gradient); display: grid; place-items: center;
+      font-size: 0.85rem; font-weight: 700; color: #fff;
+      margin-top: 0.15rem;
+    }
+    .tip-content h3 {
+      font-family: 'DM Sans', sans-serif; font-size: 1.05rem; font-weight: 600;
+      margin-bottom: 0.35rem;
+    }
+    .tip-content p { font-size: 0.9rem; color: var(--text-secondary); line-height: 1.7; }
+
+    /* ─── LEADERBOARD ─── */
+    .leaderboard { background: var(--bg-secondary); }
+    .lb-table-wrap {
+      max-width: 680px; margin: 0 auto;
+      border-radius: 16px; overflow: hidden;
+      border: 1px solid var(--border);
+    }
+    .lb-table { width: 100%; border-collapse: collapse; }
+    .lb-table th, .lb-table td { padding: 1rem 1.5rem; text-align: left; }
+    .lb-table thead { background: rgba(255,255,255,0.03); }
+    .lb-table th {
+      font-size: 0.75rem; font-weight: 600; text-transform: uppercase;
+      letter-spacing: 0.08em; color: var(--text-muted);
+    }
+    .lb-table td { font-size: 0.95rem; border-top: 1px solid var(--border); }
+    .lb-table .rank-badge {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 36px; height: 28px; border-radius: 8px; font-weight: 700;
+      font-size: 0.85rem;
+    }
+    .lb-table .rank-1 { background: rgba(139,92,246,0.15); color: #a78bfa; }
+    .lb-table .rank-2 { background: rgba(59,130,246,0.1); color: #60a5fa; }
+    .lb-table .elo { font-weight: 600; font-variant-numeric: tabular-nums; }
+    .lb-source {
+      text-align: center; margin-top: 1rem; font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    /* ─── FAQ ─── */
+    .faq-list { max-width: 760px; margin: 0 auto; display: flex; flex-direction: column; gap: 0.5rem; }
+    .faq-item {
+      border: 1px solid var(--border); border-radius: 14px;
+      overflow: hidden; transition: border-color 0.3s;
+    }
+    .faq-item.open { border-color: var(--border-hover); }
+    .faq-question {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1.25rem 1.5rem; cursor: pointer;
+      font-family: 'DM Sans', sans-serif; font-weight: 600;
+      font-size: 0.95rem; background: none; border: none;
+      color: var(--text-primary); width: 100%; text-align: left;
+      font-family: 'DM Sans', sans-serif;
+    }
+    .faq-question:hover { color: #a78bfa; }
+    .faq-chevron {
+      width: 20px; height: 20px; transition: transform 0.3s;
+      color: var(--text-muted); flex-shrink: 0;
+    }
+    .faq-item.open .faq-chevron { transform: rotate(180deg); color: var(--gradient-start); }
+    .faq-answer {
+      max-height: 0; overflow: hidden; transition: max-height 0.35s ease, padding 0.35s ease;
+    }
+    .faq-item.open .faq-answer { max-height: 300px; }
+    .faq-answer-inner {
+      padding: 0 1.5rem 1.25rem;
+      font-size: 0.9rem; color: var(--text-secondary); line-height: 1.8;
+    }
+
+    /* ─── FOOTER ─── */
+    footer {
+      padding: 3rem 0;
+      border-top: 1px solid var(--border);
+      text-align: center;
+    }
+    .footer-brand {
+      font-family: 'Instrument Serif', serif;
+      font-size: 1.1rem; margin-bottom: 0.5rem;
+    }
+    .footer-tagline {
+      font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 1rem;
+    }
+    .footer-disclaimer {
+      font-size: 0.78rem; color: var(--text-muted); max-width: 500px;
+      margin: 0 auto 1rem; line-height: 1.6;
+    }
+    .footer-copy { font-size: 0.75rem; color: var(--text-muted); }
+
+    /* ─── ANIMATIONS ─── */
+    .fade-in {
+      opacity: 0; transform: translateY(24px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .fade-in.visible { opacity: 1; transform: translateY(0); }
+    .fade-in:nth-child(2) { transition-delay: 0.1s; }
+    .fade-in:nth-child(3) { transition-delay: 0.2s; }
+    .fade-in:nth-child(4) { transition-delay: 0.3s; }
+    .fade-in:nth-child(5) { transition-delay: 0.4s; }
+    .fade-in:nth-child(6) { transition-delay: 0.5s; }
+  </style>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <header class="navbar" role="banner">
+    <div class="navbar-inner">
+      <a href="/" class="navbar-brand" aria-label="Happy Horse Prompts home">
+        <span class="brand-icon">🎬</span>
+        Happy Horse Prompts
+      </a>
+      <nav aria-label="Primary navigation">
+        <ul class="navbar-links">
+          <li><a href="#features">Features</a></li>
+          <li><a href="#use-cases">Use Cases</a></li>
+          <li><a href="#prompt-tips">Prompt Tips</a></li>
+          <li><a href="#faq">FAQ</a></li>
+          <li><a href="zh/" class="lang-toggle" aria-label="Switch to Chinese">中文</a></li>
+        </ul>
+      </nav>
+      <button class="mobile-menu-btn" aria-label="Open menu" onclick="toggleMobileMenu()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <!-- MOBILE NAV -->
+  <div class="mobile-nav" id="mobileNav" role="dialog" aria-label="Mobile navigation">
+    <a href="#features" onclick="closeMobileMenu()">Features</a>
+    <a href="#use-cases" onclick="closeMobileMenu()">Use Cases</a>
+    <a href="#prompt-tips" onclick="closeMobileMenu()">Prompt Tips</a>
+    <a href="#faq" onclick="closeMobileMenu()">FAQ</a>
+    <a href="zh/" onclick="closeMobileMenu()">中文版</a>
+  </div>
+
+  <main>
+    <!-- HERO -->
+    <section class="hero" id="hero">
+      <div class="hero-content">
+        <h1 class="fade-in">
+          <span class="gradient-text">Happy Horse AI</span> — The Complete Guide to the #1 Ranked Video Generation Model
+        </h1>
+        <p class="hero-subtitle fade-in">
+          Happy Horse (HappyHorse 1.0) has overtaken Seedance 2.0, Kling 3.0, and other leading models to claim the #1 spot on the Artificial Analysis blind-test leaderboard for both text-to-video and image-to-video. This is the creator's guide to Happy Horse — prompt techniques, real use cases, and in-depth feature analysis.
+        </p>
+        <div class="hero-ctas fade-in">
+          <a href="#use-cases" class="btn-primary">Explore Use Cases ↓</a>
+          <a href="#prompt-tips" class="btn-secondary">Learn Prompt Tips</a>
+        </div>
+        <div class="trust-badges fade-in">
+          <div class="trust-badge">
+            <span class="badge-value">#1</span>
+            <span class="badge-label">Global Ranking</span>
+          </div>
+          <div class="trust-badge">
+            <span class="badge-value">1080p</span>
+            <span class="badge-label">Native Output</span>
+          </div>
+          <div class="trust-badge">
+            <span class="badge-value">Alibaba ATH</span>
+            <span class="badge-label">Built By</span>
+          </div>
+          <div class="trust-badge">
+            <span class="badge-value">Elo 1392</span>
+            <span class="badge-label">I2V Score</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- WHAT IS -->
+    <section class="what-is" id="what-is">
+      <div class="container">
+        <div class="what-is-content">
+          <span class="section-label fade-in">Overview</span>
+          <h2 class="section-title fade-in">What is Happy Horse?</h2>
+          <p class="fade-in">
+            Happy Horse (HappyHorse 1.0) is a next-generation AI video generation model developed by <strong>Alibaba's ATH AI Innovation Unit</strong>, led by Zhang Di — the former technical architect of Kuaishou's Kling AI. In April 2026, Happy Horse debuted anonymously on the Artificial Analysis benchmarking platform and swiftly climbed to <strong>#1 on both the text-to-video and image-to-video leaderboards</strong>.
+          </p>
+          <p class="fade-in">
+            Built on a unified 40-layer self-attention Transformer architecture, Happy Horse generates video and audio jointly in a single forward pass. It supports native 1080p resolution output, multi-shot cinematic narratives, prompt-driven camera control, and multi-lingual lip-sync — making it one of the most capable AI video generation models available today.
+          </p>
+          <a href="https://happyhorse.cn" target="_blank" rel="noopener" class="official-link fade-in">
+            ↗ Official platform: happyhorse.cn
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- FEATURES -->
+    <section id="features">
+      <div class="container">
+        <div style="text-align:center">
+          <span class="section-label fade-in">Capabilities</span>
+          <h2 class="section-title fade-in">Happy Horse Core Capabilities</h2>
+        </div>
+        <div class="features-grid">
+          <div class="feature-card fade-in">
+            <div class="feature-icon">🎵</div>
+            <h3>Joint Audio-Video Generation</h3>
+            <p>Video and sound are produced simultaneously in a single pass. No separate audio post-production needed — splashing waves, roaring engines, every frame matched with perfect sound.</p>
+          </div>
+          <div class="feature-card fade-in">
+            <div class="feature-icon">🎬</div>
+            <h3>Multi-Shot Cinematic Narratives</h3>
+            <p>Generate coherent videos with multiple camera angles and cuts in a single process. Characters and scenes stay perfectly consistent across every shot.</p>
+          </div>
+          <div class="feature-card fade-in">
+            <div class="feature-icon">📺</div>
+            <h3>1080p Cinematic Quality</h3>
+            <p>Native 1080p resolution with rich color grading, precise lighting, and cinematic detail. Broadcast-ready output without post-processing.</p>
+          </div>
+          <div class="feature-card fade-in">
+            <div class="feature-icon">🎥</div>
+            <h3>Prompt-Based Camera Control</h3>
+            <p>Describe camera movements directly in your text — push-ins, pull-outs, pans, crane shots, aerial dives. Happy Horse intelligently coordinates subject and camera motion.</p>
+          </div>
+          <div class="feature-card fade-in">
+            <div class="feature-icon">👄</div>
+            <h3>Ultra-Low WER Lip-Sync</h3>
+            <p>Character mouth movements perfectly match generated dialogue with ultra-low Word Error Rate, eliminating manual adjustments.</p>
+          </div>
+          <div class="feature-card fade-in">
+            <div class="feature-icon">⚡</div>
+            <h3>8-Step Rapid Generation</h3>
+            <p>Only 8 denoising steps, completing 1080p output in approximately 38 seconds on a single H100 GPU — 1.2x faster than traditional models.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- USE CASES -->
+    <section id="use-cases" style="background:var(--bg-secondary)">
+      <div class="container">
+        <div style="text-align:center">
+          <span class="section-label fade-in">Real-World Applications</span>
+          <h2 class="section-title fade-in">Happy Horse Use Cases</h2>
+          <p class="section-desc center fade-in">How creators are using Happy Horse to transform their workflows.</p>
+        </div>
+        <div class="use-cases-list">
+          <article class="use-case-card fade-in">
+            <span class="use-case-num">Case 01</span>
+            <h3>Brand Ad Concept Validation</h3>
+            <p>A growth marketing team uses Happy Horse to rapidly validate ad creative directions. By describing product scenes and camera moves through text prompts, they receive 1080p video drafts within minutes. Before committing to full production, they can already show clients a clear visual direction — compressing the ad concept validation cycle from weeks to hours.</p>
+            <div class="prompt-label">Prompt Example</div>
+            <div class="prompt-block">"A woman in a red coat walks through a wet city street at night, neon reflections in puddles, slow dolly forward, cinematic color grading, 35mm lens"</div>
+          </article>
+
+          <article class="use-case-card fade-in">
+            <span class="use-case-num">Case 02</span>
+            <h3>Tech Product Dynamic Showcase</h3>
+            <p>Indie developers leverage Happy Horse's image-to-video capability to transform static product screenshots into dynamic demo videos. After uploading a product interface screenshot, Happy Horse automatically adds smooth transition animations and device interaction gestures. The resulting 1080p video is ready for App Store and social media promotion, significantly boosting the professionalism of product showcases.</p>
+            <div class="prompt-label">Prompt Example</div>
+            <div class="prompt-block">"A smartphone screen displaying a dashboard app, thumb scrolling through charts, subtle parallax effect, clean white background, smooth camera pan"</div>
+          </article>
+
+          <article class="use-case-card fade-in">
+            <span class="use-case-num">Case 03</span>
+            <h3>Multi-Platform Short-Form Video Content</h3>
+            <p>Video creators use Happy Horse's multi-shot narrative feature to generate coherent short films with multiple camera angles from a single prompt. Characters maintain high consistency across shots, and the joint audio-video generation adds environmental sound effects. The output can be published to short-form video platforms without additional editing, dramatically increasing content production efficiency.</p>
+            <div class="prompt-label">Prompt Example</div>
+            <div class="prompt-block">"A chef preparing sushi in a traditional Japanese kitchen, multi-angle shots — close-up of hands slicing fish, medium shot of plating, wide shot of the kitchen, warm lighting, 8mm film aesthetic"</div>
+          </article>
+
+          <article class="use-case-card fade-in">
+            <span class="use-case-num">Case 04</span>
+            <h3>Concept Art to Animated Video</h3>
+            <p>Animators and concept artists use Happy Horse's image-to-video capability (Elo 1392, ranked #1 for image-to-video) to transform static character designs and scene concept art into dynamic videos. Happy Horse precisely preserves the character consistency and environmental details of the original artwork, making pre-production concept presentations far more expressive.</p>
+            <div class="prompt-label">Prompt Example</div>
+            <div class="prompt-block">"Animate this concept art — the character turns to face the camera, hair flowing in wind, background clouds drifting slowly, cinematic lighting"</div>
+          </article>
+
+          <article class="use-case-card fade-in">
+            <span class="use-case-num">Case 05</span>
+            <h3>Multilingual Localization Video Production</h3>
+            <p>Global brands leverage Happy Horse's multi-lingual understanding and ultra-low WER lip-sync to produce marketing videos in multiple languages from a single production run. Character mouth movements naturally match voiceovers in different languages, bypassing the tedious manual lip-sync adjustments of traditional localization workflows.</p>
+            <div class="prompt-label">Prompt Example</div>
+            <div class="prompt-block">"A spokesperson presenting a product in a modern office, speaking naturally to camera, professional lighting, shallow depth of field, 85mm portrait lens"</div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROMPT TIPS -->
+    <section id="prompt-tips">
+      <div class="container">
+        <div style="text-align:center">
+          <span class="section-label fade-in">Prompt Engineering</span>
+          <h2 class="section-title fade-in">Happy Horse Prompt Writing Tips</h2>
+          <p class="section-desc center fade-in">Writing effective prompts is key to getting high-quality videos from Happy Horse. Here are community-verified practical tips.</p>
+        </div>
+        <div class="tips-list">
+          <div class="tip-item fade-in">
+            <div class="tip-num">1</div>
+            <div class="tip-content">
+              <h3>Describe Camera Movements</h3>
+              <p>Happy Horse natively understands cinematographic language. Use terms like "dolly in", "crane shot", "aerial dive", "slow pan" directly — they work far better than vague descriptions.</p>
+            </div>
+          </div>
+          <div class="tip-item fade-in">
+            <div class="tip-num">2</div>
+            <div class="tip-content">
+              <h3>Specify Lighting and Mood</h3>
+              <p>Concrete descriptions like "golden hour lighting", "neon reflections", "soft studio lighting" help Happy Horse precisely recreate the cinematic feel you want.</p>
+            </div>
+          </div>
+          <div class="tip-item fade-in">
+            <div class="tip-num">3</div>
+            <div class="tip-content">
+              <h3>Include Lens Focal Lengths</h3>
+              <p>Mentioning "35mm lens", "85mm portrait", "wide angle" guides Happy Horse to generate matching depth of field and perspective.</p>
+            </div>
+          </div>
+          <div class="tip-item fade-in">
+            <div class="tip-num">4</div>
+            <div class="tip-content">
+              <h3>Leverage Multi-Shot Narratives</h3>
+              <p>Describe multiple angles and scene transitions in your prompt, such as "multi-angle shots — close-up, medium, wide", to fully utilize Happy Horse's multi-shot capabilities.</p>
+            </div>
+          </div>
+          <div class="tip-item fade-in">
+            <div class="tip-num">5</div>
+            <div class="tip-content">
+              <h3>Control Motion Pacing</h3>
+              <p>Use terms like "slow motion", "time-lapse", "fluid motion" to precisely control the rhythm of your video.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- LEADERBOARD -->
+    <section class="leaderboard" id="leaderboard">
+      <div class="container">
+        <div style="text-align:center">
+          <span class="section-label fade-in">Rankings</span>
+          <h2 class="section-title fade-in">Happy Horse's Global Leaderboard Performance</h2>
+          <p class="section-desc center fade-in">The Artificial Analysis Video Arena uses the Elo rating system: users compare two videos without knowing which model produced them and vote for the better one.</p>
+        </div>
+        <div class="lb-table-wrap fade-in">
+          <table class="lb-table" role="table" aria-label="Leaderboard rankings">
+            <thead>
+              <tr><th>Category</th><th>Rank</th><th>Elo Score</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Text-to-Video (no audio)</td>
+                <td><span class="rank-badge rank-1">#1</span></td>
+                <td class="elo">1333</td>
+              </tr>
+              <tr>
+                <td>Image-to-Video (no audio)</td>
+                <td><span class="rank-badge rank-1">#1</span></td>
+                <td class="elo">1392</td>
+              </tr>
+              <tr>
+                <td>Text-to-Video (with audio)</td>
+                <td><span class="rank-badge rank-2">#2</span></td>
+                <td class="elo">1205</td>
+              </tr>
+              <tr>
+                <td>Image-to-Video (with audio)</td>
+                <td><span class="rank-badge rank-2">#2</span></td>
+                <td class="elo">1161</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="lb-source fade-in">Source: Artificial Analysis Video Arena, April 2026. Rankings based on blind preference votes and may shift as more votes accumulate.</p>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section id="faq">
+      <div class="container">
+        <div style="text-align:center">
+          <span class="section-label fade-in">FAQ</span>
+          <h2 class="section-title fade-in">Happy Horse FAQ</h2>
+        </div>
+        <div class="faq-list">
+          <div class="faq-item fade-in">
+            <button class="faq-question" aria-expanded="false" onclick="toggleFaq(this)">
+              What is Happy Horse?
+              <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div class="faq-answer"><div class="faq-answer-inner">
+              Happy Horse (HappyHorse 1.0) is an AI video generation model developed by Alibaba's ATH AI Innovation Unit, ranked #1 on the Artificial Analysis leaderboard for both text-to-video and image-to-video generation.
+            </div></div>
+          </div>
+          <div class="faq-item fade-in">
+            <button class="faq-question" aria-expanded="false" onclick="toggleFaq(this)">
+              Is Happy Horse better than Seedance 2.0?
+              <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div class="faq-answer"><div class="faq-answer-inner">
+              In Artificial Analysis blind-test rankings, Happy Horse ranks #1 in text-to-video and image-to-video (no audio) categories, above Seedance 2.0. Real-world results may vary by use case — we recommend side-by-side testing.
+            </div></div>
+          </div>
+          <div class="faq-item fade-in">
+            <button class="faq-question" aria-expanded="false" onclick="toggleFaq(this)">
+              What features does Happy Horse support?
+              <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div class="faq-answer"><div class="faq-answer-inner">
+              Text-to-video, image-to-video, video editing, reference-to-video, joint audio-video generation, multi-shot narratives, prompt-based camera control, and multi-lingual lip-sync.
+            </div></div>
+          </div>
+          <div class="faq-item fade-in">
+            <button class="faq-question" aria-expanded="false" onclick="toggleFaq(this)">
+              Is Happy Horse open source?
+              <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div class="faq-answer"><div class="faq-answer-inner">
+              fal.ai has confirmed that HappyHorse-1.0 is a closed-source model. It is not open source or licensable.
+            </div></div>
+          </div>
+          <div class="faq-item fade-in">
+            <button class="faq-question" aria-expanded="false" onclick="toggleFaq(this)">
+              Who is behind Happy Horse?
+              <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div class="faq-answer"><div class="faq-answer-inner">
+              Developed by Alibaba's ATH (Alibaba Token Hub) AI Innovation Unit, led by Zhang Di (former technical architect of Kuaishou's Kling AI). Alibaba CEO Eddie Wu has made AI development the company's top strategic priority.
+            </div></div>
+          </div>
+          <div class="faq-item fade-in">
+            <button class="faq-question" aria-expanded="false" onclick="toggleFaq(this)">
+              What aspect ratios does Happy Horse support?
+              <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div class="faq-answer"><div class="faq-answer-inner">
+              16:9, 9:16, 1:1, 4:3, 3:4, and 21:9 — covering all major video platform requirements.
+            </div></div>
+          </div>
+          <div class="faq-item fade-in">
+            <button class="faq-question" aria-expanded="false" onclick="toggleFaq(this)">
+              Where can I use Happy Horse?
+              <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div class="faq-answer"><div class="faq-answer-inner">
+              The official platform is happyhorse.cn. It's also available on partner platforms including fal.ai, Pollo AI, Artlist, and OpenArt.
+            </div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="container">
+      <div class="footer-brand">Happy Horse Prompts</div>
+      <p class="footer-tagline">The creator's guide and community for Happy Horse AI</p>
+      <p class="footer-disclaimer">This is a fan site and is not affiliated with Alibaba or the HappyHorse official team. Visit <a href="https://happyhorse.cn" target="_blank" rel="noopener" style="color:#a78bfa">happyhorse.cn</a> for the official platform.</p>
+      <p class="footer-copy">&copy; 2026 Happy Horse Prompts</p>
+    </div>
+  </footer>
+
+  <script>
+    // Scroll fade-in
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); } });
+    }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+    document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+    // FAQ accordion
+    function toggleFaq(btn) {
+      const item = btn.parentElement;
+      const isOpen = item.classList.contains('open');
+      document.querySelectorAll('.faq-item.open').forEach(i => {
+        i.classList.remove('open');
+        i.querySelector('.faq-question').setAttribute('aria-expanded', 'false');
+      });
+      if (!isOpen) {
+        item.classList.add('open');
+        btn.setAttribute('aria-expanded', 'true');
+      }
+    }
+
+    // Mobile menu
+    function toggleMobileMenu() {
+      document.getElementById('mobileNav').classList.toggle('open');
+    }
+    function closeMobileMenu() {
+      document.getElementById('mobileNav').classList.remove('open');
+    }
+  </script>
+</body>
+</html>
